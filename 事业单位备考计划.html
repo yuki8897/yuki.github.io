@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026事业单位 · 综合基础知识打卡表（全部可编辑）</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            margin: 0;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1600px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -12px rgba(0,20,40,0.25);
+            padding: 24px 20px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: #0b2b44;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid #2b5797;
+            padding-bottom: 16px;
+        }
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #2b5797;
+            background: #e3ecf7;
+            padding: 4px 14px;
+            border-radius: 30px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 32px 0 16px 0;
+            color: #1e3a5f;
+            border-left: 8px solid #2b5797;
+            padding-left: 18px;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 36px 0 10px 0;
+            color: #0b2b44;
+            background: #e9eff7;
+            padding: 8px 18px;
+            border-radius: 40px 8px 8px 40px;
+        }
+        .rule-card {
+            background: #f0f5fe;
+            border-radius: 24px;
+            padding: 18px 24px;
+            margin: 20px 0;
+            border: 1px solid #cbd6e9;
+        }
+        .phase-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 20px 0;
+        }
+        .phase-table th {
+            background: #1e3a5f;
+            color: white;
+            font-weight: 500;
+            padding: 12px 8px;
+        }
+        .phase-table td {
+            border: 1px solid #d4deec;
+            padding: 10px 8px;
+        }
+        .week-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(0,20,40,0.08);
+            margin-bottom: 30px;
+            border: 1px solid #bdc9dc;
+            table-layout: fixed;
+        }
+        .week-table th {
+            background: #2b4f7c;
+            color: white;
+            font-weight: 600;
+            padding: 12px 4px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.75rem;
+            border-right: 1px solid #3d68a0;
+            word-break: break-word;
+        }
+        .week-table th:last-child {
+            border-right: none;
+        }
+        .week-table td {
+            border: 1px solid #cdd9ec;
+            padding: 8px 5px;
+            vertical-align: top;
+            background-color: white;
+            word-break: break-word;
+        }
+        .week-table tbody tr:hover td {
+            background-color: #f6fafe;
+        }
+        .week-table th:last-child, .week-table td:last-child {
+            width: 220px;
+            min-width: 180px;
+        }
+        .week-table th:first-child, .week-table td:first-child {
+            width: 85px;
+        }
+        .week-table th:nth-child(2), .week-table td:nth-child(2) {
+            width: 45px;
+        }
+        /* 可编辑任务单元格样式（资料分析、数量关系、通勤任务） */
+        .editable-task {
+            background-color: #fcf9f0;
+            border: 1px dashed #b0a27b;
+            border-radius: 8px;
+            padding: 6px 5px;
+            outline: none;
+            min-height: 40px;
+            transition: background 0.1s;
+            white-space: pre-wrap;
+            word-break: break-word;
+            cursor: text;
+        }
+        .editable-task:focus {
+            background-color: #fff7db;
+            border: 1px solid #c49b3f;
+        }
+        [contenteditable="true"]:empty:before {
+            content: "点击编辑...";
+            color: #a9bcf0;
+            font-style: italic;
+            font-size: 0.75rem;
+        }
+        /* 备注单元格样式（沿用之前） */
+        .editable-note {
+            min-width: 100%;
+            min-height: 50px;
+            background-color: #f9fbfe;
+            border: 1px dashed #8da6c6;
+            border-radius: 10px;
+            padding: 6px 8px;
+            outline: none;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            transition: background 0.1s;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-y: auto;
+            resize: vertical;
+            display: block;
+        }
+        .editable-note:focus {
+            background-color: #fffae5;
+            border: 1px solid #c49b3f;
+        }
+        .rest-row td {
+            background-color: #f1f3f7 !important;
+            color: #6f7887;
+            font-style: italic;
+        }
+        .rest-row td .editable-task, .rest-row td .editable-note {
+            display: none;
+        }
+        .select-small {
+            width: 100%;
+            padding: 6px 2px;
+            font-size: 0.75rem;
+            border: 1px solid #a6b9d3;
+            border-radius: 16px;
+            background: white;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+        }
+        .badge-rule {
+            display: inline-block;
+            background: #dce5f2;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        .footer-note {
+            margin-top: 30px;
+            text-align: right;
+            color: #556c88;
+            border-top: 1px dashed #a3b9d4;
+            padding-top: 20px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 18px;
+        }
+        .emph-blue {
+            color: #1e5ba3;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📋 事业单位《综合基础知识》备考打卡表 <small>3.6-4.25 · 全部内容可编辑</small></h1>
+
+    <div class="rule-card">
+        <h2 style="margin-top:0;">📌 核心执行规则</h2>
+        <ul style="list-style-type:none; padding-left:4px;">
+            <li><span class="badge-rule">1</span> <span class="emph-blue">数资分阶</span>：资料分析15节网课+基础刷题；数量关系碎片复盘+系统学剩余6节。</li>
+            <li><span class="badge-rule">2</span> <span class="emph-blue">模块搭配</span>：每日「数资+记忆类」或「数资+文字分析类」交替进行，详见表格。</li>
+            <li><span class="badge-rule">3</span> <span class="emph-blue">固定休息</span>：3.20-3.22 、4.1-4.2 全程休息（表中已标注）。</li>
+            <li><span class="badge-rule">4</span> <span class="emph-blue">打卡规范</span>：✅完成 | ⚪未完成 | ⚠️需补学 | 🚗通勤完成（下拉菜单）</li>
+        </ul>
+        <table class="phase-table">
+            <thead><tr><th>阶段</th><th>时间</th><th>资料分析目标</th><th>数量关系目标</th></tr></thead>
+            <tbody>
+                <tr><td>网课学习</td><td>3.6-4.6</td><td>学完15节网课+公式全掌握+分题型刷题，正确率≥65%</td><td>碎片化复盘已学10节，唤醒记忆</td></tr>
+                <tr><td>系统巩固</td><td>4.7-4.19</td><td>系统刷题+速算强化，正确率≥70%</td><td>复盘10节+配套刷题，学完剩余6节，基础题正确率≥60%</td></tr>
+                <tr><td>综合复盘</td><td>4.20-4.25</td><td>高频错题重做+公式复盘，正确率≥75%</td><td>聚焦简单高频题型，基础题全对</td></tr>
+            </tbody>
+        </table>
+        <p>⏱️ 每日复盘0.5h，周日1h梳理漏洞。备注栏可多行记录。所有任务文字均可直接点击修改。</p>
+    </div>
+
+    <div style="display: flex; gap: 18px; flex-wrap: wrap; background: #e2edfb; border-radius: 40px; padding: 8px 20px; margin-bottom: 5px;">
+        <span>✅ 完成</span> <span>⚪ 未完成</span> <span>⚠️ 需补学</span> <span>🚗 通勤完成</span>
+        <span style="margin-left: auto;">📝 灰色底单元格可编辑，记录错题或调整任务</span>
+    </div>
+
+    <!-- 第1周 3.6-3.12 -->
+    <h3>📆 第1周（3.6 - 3.12）网课学习·资料分析入门</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析（网课+刷题）</th><th>数量关系（碎片复盘）</th><th>通勤任务（二合一）</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>3.6（四）</td><td>1</td><td>数资+记忆类</td><td>资料+政治+法律</td><td><div contenteditable="true" class="editable-task">网课1节（1.5h）+基期公式+速算入门5题</div></td><td><div contenteditable="true" class="editable-task">复盘1-2节：和差倍比公式</div></td><td><div contenteditable="true" class="editable-task">资料基期公式+数量和差倍比公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.7（五）</td><td>1</td><td>数资+文字分析类</td><td>资料+言语</td><td><div contenteditable="true" class="editable-task">网课2节（1.5h）+现期公式+速算练习10题</div></td><td><div contenteditable="true" class="editable-task">复盘3-4节：工程问题公式+题型特征</div></td><td><div contenteditable="true" class="editable-task">资料现期公式+数量工程公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.8（六）</td><td>1</td><td>数资+记忆类</td><td>资料+公文</td><td><div contenteditable="true" class="editable-task">网课3节（1.5h）+增长率公式+基础题10题</div></td><td><div contenteditable="true" class="editable-task">复盘5-6节：行程问题核心公式</div></td><td><div contenteditable="true" class="editable-task">资料增长率公式+数量行程公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.9（日）</td><td>1</td><td>数资+文字分析类</td><td>资料+判断（图推）</td><td><div contenteditable="true" class="editable-task">网课4-6节（3h）+基期/现期/增长率综合题15题</div></td><td><div contenteditable="true" class="editable-task">复盘7-10节：高频题型公式默写</div></td><td><div contenteditable="true" class="editable-task">资料3大公式+数量7-10节公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.10（一）</td><td>1</td><td>数资+记忆类</td><td>资料+政治（毛概）+法律（民法）</td><td><div contenteditable="true" class="editable-task">网课7节（1.5h）+比重公式+基础题15题</div></td><td><div contenteditable="true" class="editable-task">复盘和差倍比：经典题型解题思路</div></td><td><div contenteditable="true" class="editable-task">资料比重公式+数量和差倍比题型</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.11（二）</td><td>1</td><td>数资+文字分析类</td><td>资料+言语（语句）+判断（类比）</td><td><div contenteditable="true" class="editable-task">网课8节（1.5h）+比重变式+基础题20题</div></td><td><div contenteditable="true" class="editable-task">复盘工程问题：题型识别技巧</div></td><td><div contenteditable="true" class="editable-task">资料比重变式+数量工程题型</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.12（三）</td><td>1</td><td>数资+记忆类</td><td>资料+经济</td><td><div contenteditable="true" class="editable-task">网课9节（1.5h）+平均数公式+基础题20题</div></td><td><div contenteditable="true" class="editable-task">复盘行程问题：常考模型</div></td><td><div contenteditable="true" class="editable-task">资料平均数公式+数量行程模型</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第2周 3.13-3.19 -->
+    <h3>📆 第2周（3.13 - 3.19）网课学习·资料分析深入</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析（网课+刷题）</th><th>数量关系（碎片复盘）</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>3.13（四）</td><td>2</td><td>数资+记忆类</td><td>资料+法律（行政法）+文史</td><td><div contenteditable="true" class="editable-task">网课10节（1.5h）+平均数变式+基础题25题</div></td><td><div contenteditable="true" class="editable-task">复盘10节：公式汇总快速过1遍</div></td><td><div contenteditable="true" class="editable-task">资料平均数公式+数量10节公式汇总</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.14（五）</td><td>2</td><td>数资+文字分析类</td><td>资料+言语综合+判断（定义）</td><td><div contenteditable="true" class="editable-task">网课11节（1.5h）+倍数/翻番公式+基础题25题</div></td><td><div contenteditable="true" class="editable-task">复盘和差倍比：易错题思路</div></td><td><div contenteditable="true" class="editable-task">资料倍数公式+数量和差倍比易错题</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.15（六）</td><td>2</td><td>数资+记忆类</td><td>资料+政治（时政）+管理</td><td><div contenteditable="true" class="editable-task">网课12节（1.5h）+简单计算+基础题20题</div></td><td><div contenteditable="true" class="editable-task">复盘工程+行程：公式混搭题型</div></td><td><div contenteditable="true" class="editable-task">资料速算技巧+数量工程行程公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.16（日）</td><td>2</td><td>数资+文字分析类</td><td>资料+言语+判断综合</td><td><div contenteditable="true" class="editable-task">网课7-12节复盘+分题型刷题30题（比重/平均数）</div></td><td><div contenteditable="true" class="editable-task">复盘10节：高频题型口诀记忆</div></td><td><div contenteditable="true" class="editable-task">资料6节公式+数量高频题型口诀</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.17（一）</td><td>2</td><td>数资+记忆类</td><td>资料+政治综合+法律核心</td><td><div contenteditable="true" class="editable-task">网课13节（1.5h）+综合题型入门+公式全默写1遍</div></td><td><div contenteditable="true" class="editable-task">复盘10节：按题型分类公式梳理</div></td><td><div contenteditable="true" class="editable-task">资料公式全复盘+数量10节题型公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.18（二）</td><td>2</td><td>数资+文字分析类</td><td>资料+言语+判断综合</td><td><div contenteditable="true" class="editable-task">网课14节（1.5h）+高频考点梳理+分题型刷题30题（基期/增长率）</div></td><td><div contenteditable="true" class="editable-task">复盘10节：易混公式区分</div></td><td><div contenteditable="true" class="editable-task">资料高频考点+数量易混公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.19（三）</td><td>2</td><td>数资+记忆类</td><td>资料+公文+经济（宏观）</td><td><div contenteditable="true" class="editable-task">网课15节（1.5h）+网课全框架梳理+公式口诀整理</div></td><td><div contenteditable="true" class="editable-task">复盘10节：经典错题思路回忆</div></td><td><div contenteditable="true" class="editable-task">资料网课框架+数量经典错题思路</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第3周 3.20-3.26 (含休息3.20-3.22) -->
+    <h3>📆 第3周（3.20 - 3.26）网课收尾+休息</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析</th><th>数量关系</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr class="rest-row"><td>3.20（四）</td><td>3</td><td>全程休息</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td></tr>
+                <tr class="rest-row"><td>3.21（五）</td><td>3</td><td>全程休息</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td></tr>
+                <tr class="rest-row"><td>3.22（六）</td><td>3</td><td>全程休息</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td></tr>
+                <tr><td>3.23（日）</td><td>3</td><td>数资+文字分析类</td><td>资料+言语+判断错题重做</td><td><div contenteditable="true" class="editable-task">【资料网课学完】综合刷题40题+正确率统计（≥65%）+整体复盘</div></td><td><div contenteditable="true" class="editable-task">复盘10节：完整框架快速过1遍</div></td><td><div contenteditable="true" class="editable-task">资料核心技巧+数量10节完整框架</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.24（一）</td><td>3</td><td>数资+记忆类</td><td>资料+时政+文史+科技</td><td><div contenteditable="true" class="editable-task">分题型刷题35题（平均数/倍数/综合）+错题标注</div></td><td><div contenteditable="true" class="editable-task">复盘10节：公式快速默写（全程）</div></td><td><div contenteditable="true" class="editable-task">资料速算技巧+数量10节公式默写</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.25（二）</td><td>3</td><td>数资+文字分析类</td><td>资料+言语+判断错题重做</td><td><div contenteditable="true" class="editable-task">综合刷题40题+整体复盘（收尾）</div></td><td><div contenteditable="true" class="editable-task">复盘10节：框架快速过</div></td><td><div contenteditable="true" class="editable-task">资料核心+数量框架</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.26（三）</td><td>3</td><td>数资+记忆类</td><td>数资+政治+法律</td><td><div contenteditable="true" class="editable-task">基期/增长率刷题30题+截位直除速算专项</div></td><td><div contenteditable="true" class="editable-task">复盘10节（和差倍比/工程）+配套刷题15题</div></td><td><div contenteditable="true" class="editable-task">资料速算口诀+数量和差倍比/工程公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第4周 3.27-4.2 (含4.1-4.2休息) -->
+    <h3>📆 第4周（3.27 - 4.2）系统巩固开始</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析（系统刷题+速算）</th><th>数量关系（系统学习）</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>3.27（四）</td><td>4</td><td>数资+文字分析类</td><td>数资+言语</td><td><div contenteditable="true" class="editable-task">比重/平均数刷题30题+百化分速算专项</div></td><td><div contenteditable="true" class="editable-task">复盘10节（行程）+配套刷题10题+剩余网课1节</div></td><td><div contenteditable="true" class="editable-task">资料百化分口诀+数量行程公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.28（五）</td><td>4</td><td>数资+记忆类</td><td>数资+公文</td><td><div contenteditable="true" class="editable-task">倍数/综合刷题25题+公式复盘</div></td><td><div contenteditable="true" class="editable-task">复盘10节公式全默写+剩余网课2节</div></td><td><div contenteditable="true" class="editable-task">资料综合公式+数量10节公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.29（六）</td><td>4</td><td>数资+记忆类</td><td>数资+经济+文史</td><td><div contenteditable="true" class="editable-task">高频错题重做20题+速算混合练习</div></td><td><div contenteditable="true" class="editable-task">剩余网课3节+配套基础题10题</div></td><td><div contenteditable="true" class="editable-task">资料错题公式+数量新学网课公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.30（日）</td><td>4</td><td>数资+文字分析类</td><td>数资+言语+判断（图推/类比）</td><td><div contenteditable="true" class="editable-task">分题型刷题35题+提速练习（每题限时1min）</div></td><td><div contenteditable="true" class="editable-task">复盘10节+新学3节公式汇总+刷题15题</div></td><td><div contenteditable="true" class="editable-task">资料提速技巧+数量公式汇总</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>3.31（一）</td><td>4</td><td>数资+记忆类</td><td>数资+政治（时政）+管理</td><td><div contenteditable="true" class="editable-task">公式口诀默写+综合刷题30题</div></td><td><div contenteditable="true" class="editable-task">高频题型（和差倍比/工程/行程）刷题20题</div></td><td><div contenteditable="true" class="editable-task">资料公式口诀+数量高频题型公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr class="rest-row"><td>4.1（二）</td><td>4</td><td>全程休息</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td></tr>
+                <tr class="rest-row"><td>4.2（三）</td><td>4</td><td>全程休息</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td><td>——</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第5周 4.3-4.9 系统巩固·数量网课学完 -->
+    <h3>📆 第5周（4.3 - 4.9）系统巩固·数量剩余网课学完</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析</th><th>数量关系</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>4.3（四）</td><td>5</td><td>数资+文字分析类</td><td>数资+言语+判断综合</td><td><div contenteditable="true" class="editable-task">本周错题重做25题+速算强化</div></td><td><div contenteditable="true" class="editable-task">本周数量刷题错题整理+公式漏洞补全</div></td><td><div contenteditable="true" class="editable-task">资料错题速算+数量错题公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.4（五）</td><td>5</td><td>数资+记忆类</td><td>数资+政治+法律</td><td><div contenteditable="true" class="editable-task">综合刷题35题+限时练习（30题/30min）</div></td><td><div contenteditable="true" class="editable-task">剩余网课4节+配套基础题10题</div></td><td><div contenteditable="true" class="editable-task">资料限时技巧+数量新学网课公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.5（六）</td><td>5</td><td>数资+文字分析类</td><td>数资+言语</td><td><div contenteditable="true" class="editable-task">高频考点刷题30题+速算混合专项</div></td><td><div contenteditable="true" class="editable-task">剩余网课5节+配套基础题10题</div></td><td><div contenteditable="true" class="editable-task">资料高频公式+数量新学网课公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.6（日）</td><td>5</td><td>数资+记忆类</td><td>数资+公文+经济</td><td><div contenteditable="true" class="editable-task">错题重做20题+公式复盘</div></td><td><div contenteditable="true" class="editable-task">剩余网课6节【学完】+网课全框架梳理</div></td><td><div contenteditable="true" class="editable-task">资料错题公式+数量6节网课框架</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.7（一）</td><td>5</td><td>数资+记忆类</td><td>数资+文史+科技</td><td><div contenteditable="true" class="editable-task">综合刷题40题+提速练习（35题/30min）</div></td><td><div contenteditable="true" class="editable-task">数量网课全16节公式汇总+题型分类梳理</div></td><td><div contenteditable="true" class="editable-task">资料提速口诀+数量16节公式汇总</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.8（二）</td><td>5</td><td>数资+文字分析类</td><td>数资+言语+判断（定义/逻辑）</td><td><div contenteditable="true" class="editable-task">高频错题重做25题+速算强化</div></td><td><div contenteditable="true" class="editable-task">数量高频题型（16节）刷题25题+错题标注</div></td><td><div contenteditable="true" class="editable-task">资料速算技巧+数量高频题型公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.9（三）</td><td>5</td><td>数资+记忆类</td><td>数资+时政+政治综合</td><td><div contenteditable="true" class="editable-task">公式口诀默写+综合刷题35题</div></td><td><div contenteditable="true" class="editable-task">数量基础题刷题30题+正确率统计（≥60%）</div></td><td><div contenteditable="true" class="editable-task">资料公式口诀+数量基础题公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第6周 4.10-4.16 原计划最后一周任务+综合复盘开头 -->
+    <h3>📆 第6周（4.10 - 4.16）系统巩固后期+综合复盘启动</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析</th><th>数量关系</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>4.10（四）</td><td>6</td><td>数资+文字分析类</td><td>数资+言语+判断综合</td><td><div contenteditable="true" class="editable-task">数资本周复盘·资料公式+速算全梳理</div></td><td><div contenteditable="true" class="editable-task">数资本周复盘·数量16节公式+高频题型全梳理</div></td><td><div contenteditable="true" class="editable-task">资料+数量公式全复盘</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.11（五）</td><td>6</td><td>数资+记忆类</td><td>数资+政治+法律</td><td><div contenteditable="true" class="editable-task">高频错题重做20题+基期/增长率刷题25题</div></td><td><div contenteditable="true" class="editable-task">仅刷和差倍比/工程简单题20题+公式默写</div></td><td><div contenteditable="true" class="editable-task">资料高频错题公式+数量简单题公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.12（六）</td><td>6</td><td>数资+文字分析类</td><td>数资+言语</td><td><div contenteditable="true" class="editable-task">比重/平均数刷题25题+百化分速算专项</div></td><td><div contenteditable="true" class="editable-task">仅刷行程简单题15题+题型识别技巧巩固</div></td><td><div contenteditable="true" class="editable-task">资料比重/平均数公式+数量行程简单题公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.13（日）</td><td>6</td><td>数资+记忆类</td><td>数资+公文+时政</td><td><div contenteditable="true" class="editable-task">综合刷题30题+限时练习（30题/28min）</div></td><td><div contenteditable="true" class="editable-task">数量高频简单题刷题20题+错题重做</div></td><td><div contenteditable="true" class="editable-task">资料限时技巧+数量高频简单题公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.14（一）</td><td>6</td><td>数资+文字分析类</td><td>数资+言语+判断综合</td><td><div contenteditable="true" class="editable-task">资料全程错题重做25题+公式全复盘</div></td><td><div contenteditable="true" class="editable-task">数量全程简单题错题重做15题+公式全复盘</div></td><td><div contenteditable="true" class="editable-task">资料+数量错题公式全复盘</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.15（二）</td><td>6</td><td>综合复盘</td><td>数资+记忆+文字分析高频考点</td><td><div contenteditable="true" class="editable-task">资料公式口诀默写+速算轻量练习+高频考点梳理</div></td><td><div contenteditable="true" class="editable-task">数量仅记高频简单题公式+题型特征+放弃偏难题</div></td><td><div contenteditable="true" class="editable-task">资料+数量高频公式速读</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.16（三）</td><td>6</td><td>综合复盘</td><td>全科框架</td><td><div contenteditable="true" class="editable-task">错题本重看+速算每日练</div></td><td><div contenteditable="true" class="editable-task">简单题型再巩固</div></td><td><div contenteditable="true" class="editable-task">公式口袋速记</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第7周 4.17-4.23 综合复盘巩固 -->
+    <h3>📆 第7周（4.17 - 4.23）综合复盘巩固</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析</th><th>数量关系</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>4.17（四）</td><td>7</td><td>数资+记忆类</td><td>资料+政治+法律</td><td><div contenteditable="true" class="editable-task">高频错题再练20题</div></td><td><div contenteditable="true" class="editable-task">工程/行程简单题15题</div></td><td><div contenteditable="true" class="editable-task">公式卡片</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.18（五）</td><td>7</td><td>数资+文字分析类</td><td>言语+判断</td><td><div contenteditable="true" class="editable-task">速算限时练习</div></td><td><div contenteditable="true" class="editable-task">和差倍比10题</div></td><td><div contenteditable="true" class="editable-task">口诀默写</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.19（六）</td><td>7</td><td>数资+记忆类</td><td>公文+经济</td><td><div contenteditable="true" class="editable-task">资料综合刷题30题</div></td><td><div contenteditable="true" class="editable-task">数量简单题混刷</div></td><td><div contenteditable="true" class="editable-task">错题复习</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.20（日）</td><td>7</td><td>数资+文字分析类</td><td>言语+判断综合</td><td><div contenteditable="true" class="editable-task">资料错题重做</div></td><td><div contenteditable="true" class="editable-task">公式总默写</div></td><td><div contenteditable="true" class="editable-task">速读公式</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.21（一）</td><td>7</td><td>数资+记忆类</td><td>时政+文史</td><td><div contenteditable="true" class="editable-task">基期/比重刷题</div></td><td><div contenteditable="true" class="editable-task">简单题限时练</div></td><td><div contenteditable="true" class="editable-task">题型识别</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.22（二）</td><td>7</td><td>综合模考</td><td>全科</td><td><div contenteditable="true" class="editable-task">整套资料限时</div></td><td><div contenteditable="true" class="editable-task">挑做简单题</div></td><td><div contenteditable="true" class="editable-task">公式快问</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.23（三）</td><td>7</td><td>查漏补缺</td><td>高频错题</td><td><div contenteditable="true" class="editable-task">资料高频错题</div></td><td><div contenteditable="true" class="editable-task">放弃题跳过</div></td><td><div contenteditable="true" class="editable-task">心态调整</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 第8周 4.24-4.25 终极复盘 -->
+    <h3>📆 第8周（4.24 - 4.25）终极复盘</h3>
+    <div class="table-wrapper">
+        <table class="week-table">
+            <thead><tr><th>日期</th><th>周次</th><th>学习类型</th><th>核心模块</th><th>资料分析</th><th>数量关系</th><th>通勤任务</th><th>打卡栏</th><th>复盘备注</th></tr></thead>
+            <tbody>
+                <tr><td>4.24（四）</td><td>8</td><td>终极复盘</td><td>全科框架</td><td><div contenteditable="true" class="editable-task">公式全默写+错题重看</div></td><td><div contenteditable="true" class="editable-task">简单题题型过一遍</div></td><td><div contenteditable="true" class="editable-task">速记口诀</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+                <tr><td>4.25（五）</td><td>8</td><td>考前轻量</td><td>资料+数量</td><td><div contenteditable="true" class="editable-task">速算5组+公式回顾</div></td><td><div contenteditable="true" class="editable-task">心态保持</div></td><td><div contenteditable="true" class="editable-task">公式快速扫描</div></td><td><select class="select-small"><option selected>⚪未完成</option><option>✅完成</option><option>⚠️需补学</option><option>🚗通勤完成</option></select></td><td><div contenteditable="true" class="editable-note"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer-note">
+        ⭐ 所有带底色单元格均可直接点击编辑文字，根据实际情况调整任务。灰色行为固定休息日。<br>
+        🕒 数资时段：周一/二13:22-15:10；周四-日13:40-16:40。坚持连贯，基础必达。
+    </div>
+</div>
+</body>
+</html>
